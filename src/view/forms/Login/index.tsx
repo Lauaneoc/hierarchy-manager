@@ -32,16 +32,16 @@ export function LoginForm() {
                 label='Email'
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)} 
-                placeholder="Username"
+                placeholder="Digite seu email"
             />
             <Input 
                 type="password" 
                 label='Senha'
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                placeholder="Password"
+                placeholder="Digite sua senha"
             />
-            <Button title={'Login'} />
+            <Button title={'Login'} type='submit' className='mt-3'/>
         </form>
     );
 }

@@ -1,6 +1,6 @@
-export interface Location {
-    id: number;
+export interface LocationInterface {
+    id: string;
     name: string;
-    companyId: number;
+    parentId: string;
 }
   

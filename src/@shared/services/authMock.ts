@@ -10,7 +10,7 @@ interface LoginCredentials {
 export const login = ({ username, password }: LoginCredentials): User => {
   // Simula o login
   const users: User[] = [
-    { id: 1, username: 'user1', password: '123' }
+    { id: 1, username: 'user1', password: 'user123' }
   ];
 
   const user = users.find(u => u.username === username && u.password === password);

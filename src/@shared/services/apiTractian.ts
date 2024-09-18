@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { Company } from '../models/Company';
 import { Asset } from '../models/Asset';
+import { LocationInterface } from '../models/Location';
 
 
 const api = axios.create({
@@ -15,13 +16,13 @@ export const getCompanies = async (): Promise<Company[]> => {
 };
 
 // Função para pegar locais de uma empresa específica
-export const getCompanyLocations = async (companyId: number): Promise<Location[]> => {
-  const response = await api.get<Location[]>(`/companies/${companyId}/locations`);
+export const getCompanyLocations = async (companyId: string): Promise<LocationInterface[]> => {
+  const response = await api.get<LocationInterface[]>(`/companies/${companyId}/locations`);
   return response.data;
 };
 
 // Função para pegar os ativos de uma empresa específica
-export const getCompanyAssets = async (companyId: number): Promise<Asset[]> => {
+export const getCompanyAssets = async (companyId: string): Promise<Asset[]> => {
   const response = await api.get<Asset[]>(`/companies/${companyId}/assets`);
   return response.data;
 };
