@@ -6,6 +6,7 @@ interface TreeNode {
   id: string;
   label: string;
   children?: TreeNode[];
+  sensorType?: string | null;
   type: 'location' | 'asset' | 'subasset' | 'sub-subasset';
 }
 
@@ -45,7 +46,7 @@ export const useTreeData = (locations: LocationInterface[], assets: Asset[]) => 
              : 'subasset') 
           : 'asset';
 
-        assetMap.set(asset.id, { id: asset.id, label: asset.name, type: assetType, children: [] });
+        assetMap.set(asset.id, { id: asset.id, label: asset.name, sensorType: asset.sensorType, type: assetType, children: [] });
       });
 
       // Define as relações de sub-assets e componentes nos assets
