@@ -1,16 +1,18 @@
 interface PropsButton {
     type?: "submit" | "reset" | "button";
-    title: string ;
+    children: React.ReactNode ;
     className?: string; 
+    onClick?: () => void
 }
 
-export function Button({ type = "button", title, className = "" }: PropsButton) {
+export function Button({ type = "button", children, className = "", onClick}: PropsButton) {
     return (
         <button
             type={type}
-            className={`bg-[#17192D] text-white py-2 px-4 rounded-md shadow-md hover:bg-[#1a1f37] focus:outline-none focus:ring-2 focus:ring-[#17192D] focus:ring-offset-2 ${className}`}
+            onClick={onClick}
+            className={`text-[#77818C] hover:bg-[#2188FF] active:bg-[#2188FF] hover:text-white text-sm font-roboto py-1.5 px-4 rounded-md shadow-md focus:outline-none  focus:bg-[#2188FF] focus:text-white ${className}`}
         >
-            {title}
+            {children}
         </button>
     );
 }

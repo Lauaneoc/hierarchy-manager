@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { LocationInterface } from '../../../@shared/models/Location';
 import { useApiTractian } from '../../../@shared/contexts/ApiTractianContext';
-import { useTreeData } from './useTreeData';
-import { ArrowDownIcon, ChevronDownIcon, ChevronRightIcon, CubeIcon, InboxIcon} from '@heroicons/react/24/outline';
+import { ArrowDownIcon, ChevronDownIcon, ChevronRightIcon, CubeIcon, InboxIcon } from '@heroicons/react/24/outline';
 import { LocationIcon } from '../../../assets/LocationIcon';
 import { FlashIcon } from '../../../assets/FlashIcon';
 
-// Tipo para representar um item na árvore
 interface TreeNode {
   id: string;
   label: string;
@@ -17,6 +14,7 @@ interface TreeNode {
 
 const TreeNodeComponent: React.FC<{ node: TreeNode }> = ({ node }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setAssetSelected } = useApiTractian();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -24,21 +22,15 @@ const TreeNodeComponent: React.FC<{ node: TreeNode }> = ({ node }) => {
 
   const getIcon = () => {
     if (node.children && node.children.length > 0) {
-      // Nó com filhos (não é folha)
       if (node.type === 'location') {
         return <LocationIcon />;
-      } else if (node.type === 'asset') {
-        return <CubeIcon className="h-5 w-5 text-[#2188FF]" />;
-      } else if (node.type === 'subasset') {
+      } else if (node.type === 'asset' || node.type === 'subasset') {
         return <CubeIcon className="h-5 w-5 text-[#2188FF]" />;
       } else if (node.type === 'sub-subasset') {
         return <ArrowDownIcon className="h-5 w-5 text-[#2188FF]" />;
       } 
-    } else if (node.type === 'location')  {
-      return <LocationIcon />
     } else {
-      // Nó sem filhos (folha)
-      return <InboxIcon className="h-5 w-5 text-[#2188FF]" />;
+      return node.type === 'location' ? <LocationIcon /> : <InboxIcon className="h-5 w-5 text-[#2188FF]" />;
     }
   };
 
@@ -51,11 +43,17 @@ const TreeNodeComponent: React.FC<{ node: TreeNode }> = ({ node }) => {
           </span>
         )}
         {getIcon()}
-
-        <span className='pl-1 flex items-center gap-1'>
+        <span 
+          className='pl-1 flex items-center gap-1' 
+          onClick={() => {
+            if (node.sensorType != null) {
+              setAssetSelected(node);
+            }
+          }}
+        >
           {node.label} 
-          {node.sensorType == "energy" && <FlashIcon />}
-          {node.sensorType == "vibration" && <p className='w-2 h-2 bg-[#ED3833] rounded-full'></p>}
+          {node.sensorType === 'energy' && <FlashIcon />}
+          {node.sensorType === 'vibration' && <p className='w-2 h-2 bg-[#ED3833] rounded-full'></p>}
         </span>
       </div>
       {isOpen && node.children && (
@@ -69,12 +67,14 @@ const TreeNodeComponent: React.FC<{ node: TreeNode }> = ({ node }) => {
   );
 };
 
-const TreeView: React.FC<{ data: LocationInterface[] }> = ({ data }) => {
-  const { assets } = useApiTractian();
-  const { nodes } = useTreeData(data, assets);
+interface TreeViewProps {
+  nodes: TreeNode[];
+}
+
+const TreeView: React.FC<TreeViewProps> = ({ nodes }) => {
 
   return (
-    <div className="tree-view">
+    <div className="tree-view overflow-y-auto max-h-[20vh] md:max-h-full md:h-[72vh]">
       {nodes.map(node => (
         <TreeNodeComponent key={node.id} node={node} />
       ))}

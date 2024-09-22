@@ -1,80 +1,87 @@
 import { useApiTractian } from "../../../@shared/contexts/ApiTractianContext";
 import { TreeView } from "../../components";
 import imagemTeste from '../../../assets/imagemTeste.png';
-import { SensorIcon } from "../../../assets/Sensor";
-import { MdOutlineRouter } from "../../../assets/MdOutlineRouter";
+import filterResetIcon from '../../../assets/FilterReset.svg';
+import { Button } from "../../components/Button";
+import { AssetDetails } from "../../components/AssetsDetails";
+import { useState, useRef } from 'react';
 
 export function Home() {
-    const { locations } = useApiTractian();
+    const { nodes, companySelected, assetSelected, filterAssets, filterSearchLocationOrAssets } = useApiTractian();
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const previousSearchTerm = useRef(searchTerm); // Armazena o valor anterior da busca
+
+    const handleSearchChange = (e: { target: { value: string; }; }) => {
+        const value = e.target.value;
+
+        if (value.length < previousSearchTerm.current.length) {
+            filterSearchLocationOrAssets(value);
+        } else {
+            filterSearchLocationOrAssets(value);
+        }
+
+        // Atualiza o estado da busca e o valor anterior
+        setSearchTerm(value);
+        previousSearchTerm.current = value;
+    };
 
     return (
-        <div className="bg-slate-50 space-x-4 grid grid-cols-3 rounded-md p-4">
-            <p className="col-span-3 px-4">lala</p>
-            <div className="col-span-1 border rounded-md p-2">
-                <label htmlFor="search" className="sr-only">Pesquisar</label>
-                <input
-                    id="search"
-                    type="search"
-                    placeholder="Pesquisar"
-                    className="w-full p-2 border rounded"
-                    aria-label="Pesquisar localização"
-                />
-                <TreeView data={locations} />
+        <div className="bg-slate-50 md:space-x-4 grid grid-cols-1 md:grid-cols-3 rounded-md p-4 items-start">
+            {/* Header Responsivo */}
+            <div className="col-span-1 md:col-span-3 px-4 flex flex-col md:flex-row justify-between items-center md:items-center py-2">
+                <h2 className="text-gray-800 text-lg font-roboto font-semibold flex items-center justify-center">
+                    Ativos 
+                    <h3 className="pl-1 text-sm text-[#77818C] font-normal">/ {companySelected}</h3>
+                </h2>
+                <div className="flex items-center gap-3 mt-2 md:mt-0">
+                    <img 
+                        src={filterResetIcon} 
+                        onClick={() => {
+                            filterAssets('clean'); 
+                            setSearchTerm('');
+                            filterSearchLocationOrAssets('');
+                        }} 
+                        alt="" 
+                        className="w-5 h-5 cursor-pointer bg-[#2188FF] p-1 rounded-full box-content" 
+                        title="Limpar filtro" 
+                    />
+                    <Button onClick={() => filterAssets('vibration')}>Sensor de Energia</Button>
+                    <Button onClick={() => filterAssets('energy')}>Crítico</Button>
+                </div>
             </div>
 
-            <div className="col-span-2 border rounded-md overflow-hidden">
-                <h2 className="text-lg font-inter font-bold border-b p-4 bg-slate-100">
-                    MOTOR RT COAL AF01
-                </h2>
+            {/* Sidebar (Busca e Locais) */}
+            <div className="col-span-1 border rounded-md p-2 md:min-h-[calc(100vh-200px)]">
+                <label htmlFor="search" className="sr-only">Pesquisar</label>
+                <input
+    id="search"
+    type="search"
+    value={searchTerm}
+    onChange={handleSearchChange}
+    placeholder="Buscar Ativo ou Local"
+    className="w-full p-2 border rounded text-sm font-roboto"
+    aria-label="Pesquisar localização"
+/>
 
-                <div className="p-6 flex gap-8">
-                    <img 
-                        src={imagemTeste} 
-                        alt="Imagem do equipamento MOTOR RT COAL AF01" 
-                        className="w-48 h-48 object-cover rounded-md shadow-sm"
-                    />
+                <TreeView nodes={nodes} />
+            </div>
 
-                    <div className="flex-1 space-y-8">
-                        <div className="border-b pb-4">
-                            <h3 className="text-gray-800 text-lg font-roboto font-semibold mb-2">
-                                Tipo de Equipamento
-                            </h3>
-                            <p className="text-gray-600 text-base">
-                                Motor Elétrico (Trifásico)
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 className="text-gray-800 text-lg font-roboto font-semibold mb-2">
-                                Responsáveis
-                            </h3>
-                            <p className="text-gray-600 text-base flex items-center gap-2">
-                                <p className="bg-blue-500 text-white rounded-full px-3 py-1 text-sm font-semibold">
-                                    E
-                                </p>
-                                Elétrica
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="p-6 flex border-t-[1px] ">
-                    <div className="w-[50%]">
-                        <h3 className="text-gray-800 text-lg font-roboto font-semibold">
-                        Sensor
-                        </h3>
-                        <p className="text-gray-600 text-base flex gap-1">
-                            <SensorIcon /> HIO4510
+            {/* Detalhes do Ativo */}
+            <div className="col-span-1 md:col-span-2 border rounded-md p-4 md:min-h-[calc(100vh-200px)]">
+                <AssetDetails
+                    assetName={assetSelected.label}
+                    assetImage={imagemTeste}
+                    equipmentType={"Motor Elétrico (Trifásico)"}
+                    department={assetSelected.sensorType ?? ""}
+                    departmentIcon={
+                        <p className="bg-blue-500 text-white rounded-full w-6 h-6 text-sm font-semibold flex items-center justify-center">
+                            {assetSelected.sensorType === "energy" ? "E" : "M"}
                         </p>
-                    </div>
-                    <div>
-                    <h3 className="text-gray-800 text-lg font-roboto font-semibold">
-                        Receptor 
-                        </h3>
-                        <p className="text-gray-600 text-base flex gap-1">
-                            <MdOutlineRouter /> EUH4R27
-                        </p>
-                    </div>
-                </div>
+                    }
+                    sensorId={assetSelected.sensorId ?? ""}
+                    receiverId={assetSelected.gatewayId ?? ""}
+                />
             </div>
         </div>
     );

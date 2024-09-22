@@ -4,5 +4,7 @@ export interface Asset {
     name: string;        
     parentId: string | null; 
     sensorType: string | null;
+    sensorId: string;
     status: string | null; 
+    gatewayId: string | null; 
 }
