@@ -49,7 +49,6 @@ Assista ao vídeo abaixo para ver a aplicação em funcionamento, incluindo a ab
 - Heroicons (para ícones)
 
 ## Melhorias Propostas
-Se tivesse mais tempo, as seguintes melhorias seriam implementadas:
 
 1. **Performance:**
    - Implementar lazy loading para carregar os dados conforme necessário, melhorando a performance em árvores grandes.

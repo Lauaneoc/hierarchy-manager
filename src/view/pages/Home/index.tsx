@@ -68,14 +68,14 @@ export function Home() {
           receiverId={assetSelected.gatewayId ?? ""}
         />
 
-        <div className="flex flex-col justify-end mt-12 md:h-[45vh]">
+        <div className="flex flex-col justify-end mt-2">
             {assetSelected.label ? (
-                <>
+                <div>
                 <h1 className='text-gray-800 text-lg font-roboto font-semibold flex items-center justify-center py-2'>Monitoramento do Sensor de {assetSelected.sensorType === 'vibration' ? 'Vibração' : 'Energia'}</h1>
-                <LineChart data={sensorData} width={600} height={300} />
-                </>
+                <LineChart data={sensorData} width={100} height={300} />
+                </div>
             ) : (
-                <div className='p-5 border-[1px] py-40 rounded-md text-center'>Sem dados para visualizar</div>
+                <div className='p-5 border-[1px] py-40 md:py-5 rounded-md text-center'>Sem dados para visualizar</div>
             )}
         </div>
       </div>

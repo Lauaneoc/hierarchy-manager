@@ -74,7 +74,7 @@ const LineChart: React.FC<LineChartProps> = ({
   });
 
   return (
-    <div ref={divRef} style={{ width: `${width}`, height: 'auto' }}>
+    <div ref={divRef} style={{ width: `${width}%`, height: 'auto' }}>
       <svg width={svgWidth} height={height}>
         <Group>
           <AxisLeft scale={yScale} left={margin.left} />
