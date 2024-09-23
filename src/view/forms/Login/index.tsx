@@ -41,7 +41,7 @@ export function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)} 
                 placeholder="Digite sua senha"
             />
-            <Button title={'Login'} type='submit' className='mt-3'/>
+            <Button type='submit' className='mt-3'>Entrar</Button>
         </form>
     );
 }

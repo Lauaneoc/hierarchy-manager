@@ -33,7 +33,7 @@ Implementei um login fake para simular a verificação do usuário antes de pode
 ## Demonstração
 Assista ao vídeo abaixo para ver a aplicação em funcionamento, incluindo a abertura de inscrições para cada empresa e a seleção de filtros:
 
-[![Demonstração da Aplicação](https://img.youtube.com/vi/SEU_VIDEO_ID/hqdefault.jpg)](https://www.youtube.com/watch?v=SEU_VIDEO_ID)
+[![Demonstração da Aplicação](https://jam.dev/c/cdd88c00-5542-43aa-b0c0-65e022b70dcf)](https://jam.dev/c/cdd88c00-5542-43aa-b0c0-65e022b70dcf)
 
 ## Funcionalidades
 - Visualização dinâmica da árvore de ativos, componentes e locais.
@@ -69,6 +69,7 @@ Assista ao vídeo abaixo para ver a aplicação em funcionamento, incluindo a ab
 1. Clone este repositório.
 2. Execute `npm install` para instalar as dependências.
 3. Execute `npm run dev` para iniciar a aplicação.
+4. LOGIN(user1) SENHA(user123)
 
 ## API Utilizada
 - A aplicação se conecta à API em [fake-api.tractian.com](https://fake-api.tractian.com) para obter dados de empresas, locais e ativos.
