@@ -127,7 +127,6 @@ export function ApiProviderTractian({ children }: ApiProviderProps) {
 };
 
   
-  // Função para buscar os ativos de uma empresa específica
   const fetchCompanyAssets = async (companyId: string) => {
     try {
       const data = await getCompanyAssets(companyId);
@@ -215,6 +214,8 @@ export function ApiProviderTractian({ children }: ApiProviderProps) {
     setNodes(combinedTree);
     setNodesFiltered(combinedTree)
   }, [locationsFiltered, assetsFiltered]);
+
+  
 
   return (
     <ApiTractianContext.Provider

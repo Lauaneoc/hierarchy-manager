@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import { useApiTractian } from '../../../@shared/contexts/ApiTractianContext';
 import { useAuth } from '../../../@shared/contexts/AuthContext';
 import { LogoTractian } from '../../../assets/LOGO TRACTIAN';
@@ -8,7 +7,7 @@ import { CompanyIcon } from '../../../assets/CompanyIcon';
 
 export function Header() {
     const { logout } = useAuth(); 
-    const { companies, fetchCompanyLocations, setCompanySelected } = useApiTractian();
+    const { companies, fetchCompanyLocations, setCompanySelected, companySelected, setAssetSelected } = useApiTractian();
 
     return (
         <div className="bg-[#17192D] px-7 py-5 flex justify-between items-center">
@@ -16,11 +15,16 @@ export function Header() {
             <div className='flex justify-between items-center gap-5'>
                 {companies.map(item => (
                     <Button  
+                        key={item.id}
                         onClick={() => {
                             fetchCompanyLocations(item.id)
                             setCompanySelected(item.name)
+                            setAssetSelected({id: "", label: '', type: "asset", children: [], sensorType: ""})
                         }}
-                        className='flex items-center gap-2 bg-[#023B78] text-white'>
+                        className={`flex items-center gap-2 text-white ${
+                            companySelected === item.name ? 'bg-[#2188FF]' : 'bg-[#023B78]'
+                        }`}
+                    >
                         <CompanyIcon />
                         {item.name}
                     </Button>
