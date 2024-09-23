@@ -1,4 +1,4 @@
-# Tree View Application - Asset Management (Desafio Tractian)
+# Tree View Application - Asset Management (Tractian)
 
 ## Descrição
 Esta aplicação tem como objetivo visualizar a hierarquia de ativos de uma empresa através de uma estrutura de árvore. Os ativos podem incluir componentes, sub-ativos e locais, permitindo uma gestão eficiente e clara.
